@@ -1,15 +1,12 @@
-# ⚡️ Vite + ⚛ Preact Starter
+# Word Blocks
 
-A simple boilerplate with **Vite** and **Preact** ready to rock 🚀
+Simple word game played by voice, built with Vite and Preact.
 
-## Includes
+## Gameplay
 
-1. Vite 2
-2. Preact
-3. Typescript
-4. ESLint
-5. Prettier
-6. Husky
-7. Stylelint
+Computer decides on a word and pronounces it. Then, player tries to find a word which starts with the last letter of the given word and responds back via microphone.
 
-> Note: This boilerplate has been forked from [@TomokiMiyauci/vite-preact](https://github.com/TomokiMiyauci/vite-preact)
+## Rules
+
+1. Words can only be pronounced once.
+2. Player has 8 seconds to find a correct word.
