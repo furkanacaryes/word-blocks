@@ -1,0 +1,23 @@
+{
+  "name": "Word Blocks",
+  "description": "A simple speech api based word game",
+  "type": "privileged",
+  "launch_path": "/index.html",
+  "icons": {
+    "512": "/assets/img/512.png",
+    "128": "/assets/img/128.png"
+  },
+  "developer": {
+    "name": "Furkan Acar",
+    "url": "https://github.com/futuredayv"
+  },
+  "default_locale": "tr",
+  "permissions": {
+    "audio-capture": {
+      "description": "Audio capture"
+    },
+    "speech-recognition": {
+      "description": "Speech recognition"
+    }
+  }
+}
