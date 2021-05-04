@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@types/node": "^15.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "preact": "^10.4.1"
   },
   "devDependencies": {
