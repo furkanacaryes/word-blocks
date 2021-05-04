@@ -7,9 +7,7 @@ const config: UserConfig = {
     jsxFactory: 'h',
     jsxFragment: 'Fragment',
   },
-
   plugins: [preactRefresh()],
-
   resolve: {
     alias: [{ find: '@', replacement: resolve('src') }],
   },
