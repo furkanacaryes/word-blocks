@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
+    "test": "jest",
     "build": "vite build",
     "lint:script": "eslint --ext .ts,tsx --ignore-path .gitignore .",
     "lint:style": "stylelint src/**/*.{css,scss}"
