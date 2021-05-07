@@ -5,7 +5,12 @@ export default {
   preset: 'jest-preset-preact',
   setupFiles: ['<rootDir>/test/jest.setup.ts'],
   moduleNameMapper: {
-    // ? Anything which starts with '@' followed by 'Capitalizedword'
+    '^@Mocks$': '<rootDir>/test/mocks/',
+    '^@Mocks/(.*)$': '<rootDir>/test/mocks/$1',
+
+    '^@TestHelpers$': '<rootDir>/test/helpers/',
+    '^@TestHelpers/(.*)$': '<rootDir>/test/helpers/$1',
+
     '^@([A-Z]\\w+)$': '<rootDir>/src/$1',
   },
 };
