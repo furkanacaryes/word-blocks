@@ -9,7 +9,11 @@ const config: UserConfig = {
   },
   plugins: [preactRefresh()],
   resolve: {
-    alias: [{ find: '@', replacement: resolve('src') }],
+    alias: [
+      { find: '@Components', replacement: resolve('./src/Components/') },
+      { find: '@Hooks', replacement: resolve('./src/Hooks/') },
+      { find: '@Styles', replacement: resolve('./src/Styles/') },
+    ],
   },
 };
 
