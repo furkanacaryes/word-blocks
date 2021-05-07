@@ -45,6 +45,12 @@
 
           "@Styles": ["src/Styles"],
           "@Styles/*": ["src/Styles/*"],
+
+          "@TestHelpers": ["test/helpers"],
+          "@TestHelpers/*": ["test/helpers/*"],
+
+          "@Mocks": ["test/mocks"],
+          "@Mocks/*": ["test/mocks/*"],
         },
         "rootDirs": ["src", "test"],              /* List of root folders whose combined content represents the structure of the project at runtime. */
         // "typeRoots": [],                       /* List of folders to include type definitions from. */
