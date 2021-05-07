@@ -1,8 +1,8 @@
-import '@/styles/global.css';
-
 import { h, render } from 'preact';
 
-import { App } from '@/app';
+import { App } from './app';
+
+import '@Styles/global.css';
 
 const entryPoint = document.getElementById('app');
 
