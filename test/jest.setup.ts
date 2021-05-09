@@ -1,3 +1,3 @@
-import { mockNavigator } from './helpers';
+import { resetMockNavigator } from './helpers';
 
-mockNavigator();
+resetMockNavigator();

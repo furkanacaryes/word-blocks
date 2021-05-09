@@ -1,6 +1,6 @@
 import { permissionMock } from '@Mocks/permission.mock';
 
-export const mockNavigator = (): void => {
+export const resetMockNavigator = (): void => {
   Object.defineProperties(global.navigator, {
     mediaDevices: {
       value: {
