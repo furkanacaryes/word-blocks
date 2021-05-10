@@ -22,7 +22,7 @@ const renderUseCountdown = (props?: Partial<CountdownProps>) => {
   if (!result.current) throw result.error;
 
   return {
-    countdown: result.current,
+    result,
     spies: { onEnd },
     waitForNextUpdate,
   };
@@ -31,9 +31,9 @@ const renderUseCountdown = (props?: Partial<CountdownProps>) => {
 describe('useCountdown', () => {
   describe('provided value', () => {
     it('should return a `Countdown` object with correct initials', () => {
-      const { countdown } = renderUseCountdown({ duration: 1_000 });
+      const { result } = renderUseCountdown({ duration: 1_000 });
 
-      expect(countdown).toMatchInlineSnapshot(`
+      expect(result.current).toMatchInlineSnapshot(`
         Object {
           "lapse": [Function],
           "pause": [Function],
@@ -57,13 +57,13 @@ describe('useCountdown', () => {
   describe('behaviours', () => {
     describe('when `start` gets called', () => {
       it('should start ticking once per given frequency', async () => {
-        const { countdown, waitForNextUpdate } = renderUseCountdown();
+        const { result, waitForNextUpdate } = renderUseCountdown();
 
-        countdown.start();
+        result.current?.start();
 
         expect(setInterval).toHaveBeenCalledTimes(1);
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '00',
@@ -72,7 +72,7 @@ describe('useCountdown', () => {
         jest.runOnlyPendingTimers(); // ? Exhaust pending interval
         await waitForNextUpdate(); // ? Wait for state update
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '01',
@@ -80,24 +80,24 @@ describe('useCountdown', () => {
       });
 
       it('should restart if already done', async () => {
-        const { countdown, waitForNextUpdate } = renderUseCountdown();
+        const { result, waitForNextUpdate } = renderUseCountdown();
 
-        countdown.start();
+        result.current?.start();
 
-        jest.runAllTimers(); // ? Exhaust whole countdown
+        jest.runAllTimers(); // ? Exhaust whole result
         await waitForNextUpdate();
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '03',
         });
 
-        countdown.start();
+        result.current?.start();
 
         await waitForNextUpdate();
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '00',
@@ -105,28 +105,28 @@ describe('useCountdown', () => {
       });
 
       it('should resume if paused', async () => {
-        const { countdown, waitForNextUpdate } = renderUseCountdown();
+        const { result, waitForNextUpdate } = renderUseCountdown();
 
-        countdown.start();
+        result.current?.start();
         expect(setInterval).toHaveBeenCalledTimes(1);
 
         jest.runOnlyPendingTimers();
         await waitForNextUpdate();
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '01',
         });
 
-        countdown.pause();
+        result.current?.pause();
 
-        countdown.start();
+        result.current?.start();
 
         jest.runOnlyPendingTimers();
         await waitForNextUpdate();
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '02',
@@ -138,27 +138,27 @@ describe('useCountdown', () => {
       it('should stop ticking', async () => {
         expect.assertions(3);
 
-        const { countdown, waitForNextUpdate } = renderUseCountdown();
+        const { result, waitForNextUpdate } = renderUseCountdown();
 
-        countdown.start();
+        result.current?.start();
 
         expect(setInterval).toHaveBeenCalledTimes(1);
 
         jest.runOnlyPendingTimers();
         await waitForNextUpdate();
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '01',
         });
 
-        countdown.pause();
+        result.current?.pause();
 
         setTimeout(() => {
           // ? Since there will be no state update, `waitForNextUpdate` would break the test.
           process.nextTick(() => {
-            expect(countdown.totalElapsed).toMatchObject<Clock>({
+            expect(result.current?.totalElapsed).toMatchObject<Clock>({
               milliseconds: '00',
               minutes: '00',
               seconds: '01',
@@ -171,28 +171,28 @@ describe('useCountdown', () => {
     describe('when `reset` gets called', () => {
       describe('with param `keepTotalElapsed` as `true`', () => {
         it('should save `totalElapsedTime`', async () => {
-          const { countdown, waitForNextUpdate } = renderUseCountdown();
+          const { result, waitForNextUpdate } = renderUseCountdown();
 
-          countdown.start();
+          result.current?.start();
 
           jest.runAllTimers();
           await waitForNextUpdate();
 
-          expect(countdown.totalElapsed).toMatchObject<Clock>({
+          expect(result.current?.totalElapsed).toMatchObject<Clock>({
             milliseconds: '00',
             minutes: '00',
             seconds: '03',
           });
 
-          countdown.reset(true);
+          result.current?.reset(true);
           await waitForNextUpdate();
 
-          countdown.start();
+          result.current?.start();
 
           jest.runAllTimers();
           await waitForNextUpdate();
 
-          expect(countdown.totalElapsed).toMatchObject<Clock>({
+          expect(result.current?.totalElapsed).toMatchObject<Clock>({
             milliseconds: '00',
             minutes: '00',
             seconds: '06',
@@ -200,30 +200,30 @@ describe('useCountdown', () => {
         });
       });
 
-      it('should stop ticking and reset the countdown', async () => {
-        const { countdown, waitForNextUpdate } = renderUseCountdown();
+      it('should stop ticking and reset the result', async () => {
+        const { result, waitForNextUpdate } = renderUseCountdown();
 
-        countdown.start();
+        result.current?.start();
 
         jest.runAllTimers();
         await waitForNextUpdate();
 
-        expect(countdown.remaining).toMatchObject<Clock>({
+        expect(result.current?.remaining).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '00',
         });
 
-        countdown.reset();
+        result.current?.reset();
         await waitForNextUpdate();
 
-        expect(countdown.remaining).toMatchObject<Clock>({
+        expect(result.current?.remaining).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '03',
         });
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '00',
@@ -232,31 +232,31 @@ describe('useCountdown', () => {
     });
 
     describe('when `lapse` gets called', () => {
-      it('should reset the countdown, keep the total elapsed and resume ticking', async () => {
-        const { countdown, waitForNextUpdate, spies } = renderUseCountdown();
+      it('should reset the result, keep the total elapsed and resume ticking', async () => {
+        const { result, waitForNextUpdate, spies } = renderUseCountdown();
 
-        countdown.start();
+        result.current?.start();
 
         jest.runOnlyPendingTimers();
         await waitForNextUpdate();
 
-        expect(countdown.remaining).toMatchObject<Clock>({
+        expect(result.current?.remaining).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '02',
         });
 
-        countdown.lapse();
+        result.current?.lapse();
 
         await waitForNextUpdate();
 
-        expect(countdown.remaining).toMatchObject<Clock>({
+        expect(result.current?.remaining).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '03',
         });
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '01',
@@ -267,7 +267,7 @@ describe('useCountdown', () => {
 
         expect(spies.onEnd).toHaveBeenCalledTimes(1);
 
-        expect(countdown.totalElapsed).toMatchObject<Clock>({
+        expect(result.current?.totalElapsed).toMatchObject<Clock>({
           milliseconds: '00',
           minutes: '00',
           seconds: '04',
