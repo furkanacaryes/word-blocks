@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
-import { askPermissionSafe, queryMicrophonePermission } from './index.helpers';
+import { askPermissionSafe, queryMicrophonePermission } from './helpers';
 
 export type MicrophoneState = {
   isMicrophoneAllowed: boolean;

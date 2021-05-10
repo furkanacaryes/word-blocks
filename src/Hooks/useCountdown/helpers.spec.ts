@@ -1,5 +1,5 @@
-import { toClock, toDoubleDigit } from './index.helpers';
-import { Clock } from './index.types';
+import { toClock, toDoubleDigit } from './helpers';
+import { Clock } from './types';
 
 describe('useCountdown helpers', () => {
   describe('toDoubleDigit', () => {

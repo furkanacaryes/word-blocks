@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 
-import { toClock } from './index.helpers';
-import { Countdown, CountdownProps } from './index.types';
+import { toClock } from './helpers';
+import { Countdown, CountdownProps } from './types';
 
 export const useCountdown = ({ duration, frequency = 1_000, onEnd }: CountdownProps): Countdown => {
   const interval = useRef<NodeJS.Timer>();

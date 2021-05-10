@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/preact-hooks';
 
 import { useCountdown } from './index';
-import { Clock, CountdownProps } from './index.types';
+import { Clock, CountdownProps } from './types';
 
 beforeEach(() => {
   jest.useFakeTimers();

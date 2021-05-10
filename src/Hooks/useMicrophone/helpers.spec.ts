@@ -1,4 +1,4 @@
-import { askPermissionSafe, queryMicrophonePermission } from './index.helpers';
+import { askPermissionSafe, queryMicrophonePermission } from './helpers';
 
 import { permissionMock } from '@Mocks';
 import { allowQuery, resetMockNavigator } from '@TestHelpers/navigator';
