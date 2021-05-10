@@ -17,11 +17,11 @@ export const toDoubleDigit = (number: number): string => {
 export const toClock = (ms: number): Clock => {
   const clock = new Date(ms);
 
-  if (clock.getHours() > 0) throw new Error('Should be lesser than an hour!');
+  if (clock.getUTCHours() > 0) throw new Error('Should be lesser than an hour!');
 
   return {
-    milliseconds: toDoubleDigit(clock.getMilliseconds()),
-    minutes: toDoubleDigit(clock.getMinutes()),
-    seconds: toDoubleDigit(clock.getSeconds()),
+    milliseconds: toDoubleDigit(clock.getUTCMilliseconds()),
+    minutes: toDoubleDigit(clock.getUTCMinutes()),
+    seconds: toDoubleDigit(clock.getUTCSeconds()),
   };
 };
