@@ -1,0 +1,42 @@
+.stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat__box {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  margin: 16px;
+}
+
+.stat__box::before {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  content: '';
+  background-color: white;
+  transform: skewX(-15deg);
+}
+
+.stat__text,
+.stat__box__text {
+  font-size: 48px;
+  font-style: italic;
+  font-weight: bold;
+  color: black;
+}
+
+.stat__text {
+  font-size: 40px;
+  color: white;
+}
+
+button {
+  margin: 32px 0;
+}
