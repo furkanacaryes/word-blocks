@@ -1,0 +1,11 @@
+.time {
+  display: flex;
+}
+
+.time__unit {
+  padding: 8px;
+}
+
+small {
+  opacity: 0.5;
+}
