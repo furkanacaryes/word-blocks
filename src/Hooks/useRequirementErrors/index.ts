@@ -13,7 +13,6 @@ export const useRequirementErrors = (): string[] => {
 
     if (microphone.error) nextErrors.push(microphone.error);
     if (speech.error) nextErrors.push(speech.error);
-    nextErrors.push('Hey there adamım! Bu bir hatadır eller havaya!');
 
     setErrors(nextErrors);
   }, [microphone, speech]);
