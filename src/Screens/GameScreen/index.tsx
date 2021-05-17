@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { Screen, Time } from '@Components';
 import { useCountdown, useGameContext, useRecognition, useSpeech, useWords } from '@Hooks';
 import { GameStatus, Player } from '@Types';
-import { getRandomNumber, selectRandomIn } from '@Utils';
+import { getRandomNumber, selectRandomIn, sleep } from '@Utils';
 
 import './styles.css';
 
@@ -34,7 +35,7 @@ export const GameScreen: FunctionComponent = () => {
     const status = isHuman(currentPlayer) ? GameStatus.LOST : GameStatus.WON;
 
     setGameResult({ status, totalElapsed: countdown.totalElapsed, wordCount: usedWords.length });
-  }, [currentPlayer]);
+  }, [currentPlayer, usedWords]);
 
   const countdown = useCountdown({
     duration: 8_000,
@@ -73,13 +74,9 @@ export const GameScreen: FunctionComponent = () => {
       const doesItChain = doesChain(word.toLocaleLowerCase('tr'));
       const isNotUsed = !usedWords.includes(word);
 
-      const isOK = word.toLocaleLowerCase('tr').startsWith(currentWord.slice(-1));
-
-      console.log({ currentWord, isOK, word });
-
       return isWord && doesItChain && isNotUsed;
     },
-    [currentWord],
+    [doesChain, usedWords],
   );
 
   const endTurn = useCallback(
@@ -107,13 +104,10 @@ export const GameScreen: FunctionComponent = () => {
 
     const fakeThinkingDuration = getRandomNumber(2_000, 4_000);
 
-    await new Promise((resolve) => {
-      setTimeout(async () => {
-        countdown.pause();
-        await speak(answer);
-        resolve(answer);
-      }, fakeThinkingDuration);
-    });
+    await sleep(fakeThinkingDuration);
+
+    countdown.pause();
+    await speak(answer);
 
     endTurn(answer);
   }, [endTurn]);
@@ -123,11 +117,11 @@ export const GameScreen: FunctionComponent = () => {
       if (key === ' ') {
         startListening()
           .then((word) => endTurn(word))
-          .catch(() => abortListening());
+          .catch(abortListening);
       }
     },
 
-    [isListening, endTurn],
+    [endTurn],
   );
 
   useEffect(() => {
@@ -145,7 +139,7 @@ export const GameScreen: FunctionComponent = () => {
 
       return () => removeEventListener('keydown', spaceButtonListener);
     }
-  }, [currentPlayer]);
+  }, [currentPlayer, spaceButtonListener]);
 
   useEffect(() => {
     if (!isHuman(currentPlayer)) playComputer();
