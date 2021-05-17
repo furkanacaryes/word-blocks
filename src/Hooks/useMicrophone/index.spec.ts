@@ -1,9 +1,10 @@
 import { renderHook } from '@testing-library/preact-hooks';
 
-import { MicrophoneState, useMicrophone } from './index';
+import { useMicrophone } from './index';
+import { MicrophoneState } from './types';
 
 import { permissionMock } from '@Mocks';
-import { resetMockNavigator } from '@TestHelpers/navigator';
+import { allowUserMedia, resetMockNavigator } from '@TestHelpers/navigator';
 
 afterAll(() => {
   resetMockNavigator();
@@ -12,26 +13,69 @@ afterAll(() => {
 describe('useMicrophone', () => {
   describe('provided value', () => {
     it('should return expected shape and initial value', async () => {
-      const { result } = renderHook(() => useMicrophone());
+      const { result, waitForNextUpdate } = renderHook(() => useMicrophone());
 
-      expect(result.current).toMatchObject<MicrophoneState>({ isMicrophoneAllowed: false });
+      // ? Initial values
+      expect(result.current).toMatchObject({});
+
+      // ? onMount
+      await waitForNextUpdate();
+      expect(result.current).toStrictEqual<MicrophoneState>({
+        error: undefined,
+        result: {
+          isGranted: true,
+        },
+      });
     });
   });
 
   describe('behaviours', () => {
-    it('should listen changes and update state accordingly', async () => {
+    it('should update state as expected on denial', async () => {
       const { result, waitForNextUpdate } = renderHook(() => useMicrophone());
 
-      // ? Initial values
-      expect(result.current?.isMicrophoneAllowed).toBe(false);
-
-      // ? onMount
       await waitForNextUpdate();
-      expect(result.current?.isMicrophoneAllowed).toBe(true);
 
       await permissionMock.triggerChange('denied');
+      expect(result.current).toStrictEqual<MicrophoneState>({
+        error: 'You need to give permission for microphone.',
+        result: undefined,
+      });
+    });
 
-      expect(result.current?.isMicrophoneAllowed).toBe(false);
+    it('should update state as expected on approval', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useMicrophone());
+
+      await waitForNextUpdate();
+
+      await permissionMock.triggerChange('granted');
+      expect(result.current).toStrictEqual<MicrophoneState>({
+        error: undefined,
+        result: {
+          isGranted: true,
+        },
+      });
+    });
+
+    it('should ask permission then updates state accordinly', async () => {
+      const { result, waitForNextUpdate } = renderHook(() => useMicrophone());
+
+      await waitForNextUpdate();
+
+      allowUserMedia(true);
+      await permissionMock.triggerChange('prompt');
+      expect(result.current).toStrictEqual<MicrophoneState>({
+        error: undefined,
+        result: {
+          isGranted: true,
+        },
+      });
+
+      allowUserMedia(false);
+      await permissionMock.triggerChange('prompt');
+      expect(result.current).toStrictEqual<MicrophoneState>({
+        error: 'You need to give permission for microphone.',
+        result: undefined,
+      });
     });
   });
 });

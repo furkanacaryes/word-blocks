@@ -7,6 +7,8 @@ export const permissionMock = {
     return;
   },
 
+  removeEventListener: jest.fn(),
+
   state: 'granted',
 
   async triggerChange(state: PermissionState): Promise<void> {
