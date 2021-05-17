@@ -5,4 +5,9 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: white;
+}
+
+h1 {
+  font-size: 40px;
 }
