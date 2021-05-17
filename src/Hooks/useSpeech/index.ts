@@ -3,10 +3,13 @@ import { useEffect, useRef } from 'preact/hooks';
 type Speech = {
   speak: (text: string) => Promise<void>;
   isSupported: boolean;
+  error?: string;
 };
 
 export const useSpeech = (): Speech => {
   const isSupported = !!window.speechSynthesis;
+
+  const error = isSupported ? undefined : 'Bu tarayıcıda dikte desteklenmiyor.';
 
   const utteranceRef = useRef(new SpeechSynthesisUtterance());
 
@@ -55,5 +58,5 @@ export const useSpeech = (): Speech => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { isSupported, speak };
+  return { error, isSupported, speak };
 };
