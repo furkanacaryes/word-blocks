@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'preact/hooks';
 
-import { isSupported, recognition } from './recognition';
+import { error, isSupported, recognition } from './recognition';
 
 type Recognition = {
+  error?: string;
   isSupported: boolean;
   isListening: boolean;
   startListening: () => Promise<string>;
@@ -41,6 +42,7 @@ export const useRecognition = (): Recognition => {
 
   return {
     abortListening,
+    error,
     isListening,
     isSupported,
     startListening,

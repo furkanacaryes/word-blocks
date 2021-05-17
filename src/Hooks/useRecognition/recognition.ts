@@ -2,6 +2,8 @@ export const SpeechRecognition = window.SpeechRecognition || window.webkitSpeech
 
 export const isSupported = !!SpeechRecognition;
 
+export const error = isSupported ? undefined : `Bu tarayıcıda 'SpeechRecognition' desteklenmiyor!`;
+
 export const recognition = isSupported ? new SpeechRecognition() : ({} as SpeechRecognition);
 
 recognition.continuous = false;

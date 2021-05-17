@@ -19,9 +19,11 @@ export const StartScreen: FunctionComponent = () => {
   const { startGame } = useGameContext();
   const requirementErrors = useRequirementErrors();
 
-  return (
-    <Screen centered randomBgColor>
-      {requirementErrors.length && (
+  const renderErrors = () => {
+    const hasErrors = requirementErrors.length > 0;
+
+    return (
+      hasErrors && (
         <div className="error-stack">
           {requirementErrors.map((error, index) => (
             <div key={`error--${index}`} className="error-stack__item">
@@ -29,7 +31,13 @@ export const StartScreen: FunctionComponent = () => {
             </div>
           ))}
         </div>
-      )}
+      )
+    );
+  };
+
+  return (
+    <Screen centered randomBgColor>
+      {renderErrors()}
 
       <h1>Kelime Zinciri</h1>
 

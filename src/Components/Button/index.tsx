@@ -8,9 +8,13 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-export const Button: FunctionComponent<ButtonProps> = ({ children, text, onClick }) => {
+export const Button: FunctionComponent<ButtonProps> = ({ children, text, disabled, ...props }) => {
   return (
-    <button className="button" onClick={onClick}>
+    <button
+      className={`button ${disabled ? 'button--disabled' : ''}`}
+      disabled={disabled}
+      {...props}
+    >
       {text || children}
     </button>
   );
