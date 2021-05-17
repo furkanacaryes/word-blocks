@@ -1,7 +1,7 @@
 import { FunctionComponent, h } from 'preact';
 
 import { Button, Screen } from '@Components';
-import { useGameContext } from '@Hooks';
+import { useGameContext, useRequirementErrors } from '@Hooks';
 import { formatCustomText } from '@Utils';
 
 import './styles.css';
@@ -17,9 +17,20 @@ const rules = [
 
 export const StartScreen: FunctionComponent = () => {
   const { startGame } = useGameContext();
+  const requirementErrors = useRequirementErrors();
 
   return (
     <Screen centered randomBgColor>
+      {requirementErrors.length && (
+        <div className="error-stack">
+          {requirementErrors.map((error, index) => (
+            <div key={`error--${index}`} className="error-stack__item">
+              {error}
+            </div>
+          ))}
+        </div>
+      )}
+
       <h1>Kelime Zinciri</h1>
 
       <div>
@@ -34,7 +45,11 @@ export const StartScreen: FunctionComponent = () => {
         </ol>
       </div>
 
-      <Button text="Yuvarlanarak Başla!" onClick={startGame} />
+      <Button
+        text="Yuvarlanarak Başla!"
+        onClick={startGame}
+        disabled={!!requirementErrors.length}
+      />
     </Screen>
   );
 };
