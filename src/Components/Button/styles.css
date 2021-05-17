@@ -1,0 +1,18 @@
+.button {
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-width: 0;
+  border-bottom: solid 4px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 24px 40px 10px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(4px);
+}
