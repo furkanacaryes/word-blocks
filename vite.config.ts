@@ -10,9 +10,13 @@ const config: UserConfig = {
   plugins: [preactRefresh()],
   resolve: {
     alias: [
+      { find: '@Screens', replacement: resolve('./src/Screens/') },
       { find: '@Components', replacement: resolve('./src/Components/') },
+      { find: '@Types', replacement: resolve('./src/Types/') },
       { find: '@Hooks', replacement: resolve('./src/Hooks/') },
+      { find: '@Contexts', replacement: resolve('./src/Contexts/') },
       { find: '@Styles', replacement: resolve('./src/Styles/') },
+      { find: '@Utils', replacement: resolve('./src/Utils/') },
     ],
   },
 };
