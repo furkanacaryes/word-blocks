@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 
-import { useMicrophone, useSpeech } from '@Hooks';
-import { useRecognition } from '@Hooks/useRecognition';
+import { useMicrophone, useRecognition, useSpeech } from '@Hooks';
 
 export const useRequirementErrors = (): string[] => {
   const recognition = useRecognition();

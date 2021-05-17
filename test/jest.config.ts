@@ -12,5 +12,6 @@ export default {
     '^@TestHelpers/(.*)$': '<rootDir>/test/helpers/$1',
 
     '^@([A-Z]\\w+)$': '<rootDir>/src/$1',
+    '^@([A-Z]\\w+)/(.*)$': '<rootDir>/src/$1/$2',
   },
 };
