@@ -25,11 +25,6 @@ export const useCountdown = ({ duration, frequency = 1_000, onEnd }: CountdownPr
       const remaining = prev.remaining - frequency;
       const totalElapsed = prev.totalElapsed + frequency;
 
-      if (remaining === 0) {
-        stopTicking();
-        onEnd(toClock(totalElapsed));
-      }
-
       return { remaining, totalElapsed };
     });
   };
@@ -56,6 +51,15 @@ export const useCountdown = ({ duration, frequency = 1_000, onEnd }: CountdownPr
   const stopTicking = () => {
     clearInterval(interval.current);
   };
+
+  useEffect(() => {
+    const { remaining, totalElapsed } = countdown;
+
+    if (remaining === 0) {
+      stopTicking();
+      onEnd(toClock(totalElapsed));
+    }
+  }, [countdown, onEnd]);
 
   useEffect(() => {
     return () => stopTicking();

@@ -1,4 +1,4 @@
-import { Clock } from './types';
+import { Clock } from '@Types';
 
 /**
  * Converts given number to 2-digit string.

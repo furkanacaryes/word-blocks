@@ -1,3 +1,5 @@
+import { Clock } from '@Types';
+
 export type CountdownProps = {
   duration: number;
   frequency?: number;
@@ -12,5 +14,3 @@ export type Countdown = {
   totalElapsed: Clock;
   remaining: Clock;
 };
-
-export type Clock = Record<'minutes' | 'seconds' | 'milliseconds', string>;
